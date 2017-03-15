@@ -9,6 +9,7 @@ angular.module('directives.javaPageObject', ['ngclipboard'])
                 $scope.fields = [];
                 $scope.sourceCode = '';
                 $scope.trackingClicks = false;
+                $scope.println = "";
                 var toContentScriptChannel = chrome.runtime.connect({name: 'tocontentscriptchannel'});
 
                 $scope.clearFields = function () {
@@ -17,9 +18,10 @@ angular.module('directives.javaPageObject', ['ngclipboard'])
 
                 $scope.$on('elementClicked', function (event, element) {
                     var javaField = JavaGenerator.fieldFromCSS(element.cssSelector, $scope.fields.length);
-                    if (!fieldExists(javaField)) {
-                        $scope.fields.unshift(javaField);
-                    }
+                    $scope.fields.push(javaField);
+                    //if (!fieldExists(javaField)) {
+                    //    $scope.fields.unshift(javaField);
+                    //}
                 });
 
                 function fieldExists(javaField) {
@@ -49,6 +51,12 @@ angular.module('directives.javaPageObject', ['ngclipboard'])
                 $scope.stopPopulatingPageObject = function () {
                     $scope.trackingClicks = false;
                     notifyContentScriptToStopTrackingClicks();
+                };
+
+                $scope.addPrintLn = function () {
+                    var line = 'System.out.println("' + $scope.println + '");';
+                    $scope.fields.push(line);
+                    $scope.println = "";
                 };
 
                 function notifyContentScriptToStartTrackingClicks() {

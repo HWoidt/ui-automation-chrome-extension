@@ -13,12 +13,20 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class PageObject {
-    <field ng-repeat="field in fields track by $index">
-    {{ field }}
-    </field>
+
+    public void runTest() {
+        <field ng-repeat="field in fields track by $index">
+        {{ field }}
+        </field>
+    }
+
     public PageObject(WebDriver webDriver) {
         PageFactory.initElements(webDriver, this);
     }
 }
 </div>
+<form ng-submit='addPrintLn()'>
+    System.out.println(<input type="text" ng-model="println"></input>);
+    <input type="submit" id="submit" value="add"></input>
+</form>
 </div>
